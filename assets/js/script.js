@@ -16,7 +16,7 @@ $('#city-submit').on('click', function (event) {
 
 const getWeather = function (city) {
     // format the github api url
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
     // make a request to the url
     fetch(apiUrl)
@@ -24,7 +24,8 @@ const getWeather = function (city) {
             // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data, city);
+                    /* getUv(data); */
+                    displayWeather(data);
                 });
             } else {
                 alert(`Error: ${response.statusText}`);
@@ -34,3 +35,22 @@ const getWeather = function (city) {
             alert(`Unable to connect to OpenWeather`);
         });
 };
+
+const displayWeather = function (weather) {
+    const date = moment().format('D/M/YYYY');
+    const city = weather.name;
+    $('#solo-header').text(`${city} (${date})`);
+
+    const iconCode = weather.weather[0].icon;
+    const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`
+    const iconEl = $('<img>').attr('src', iconUrl);
+    iconEl.appendTo($('#solo-header'));
+
+    const temp = weather.main.temp.toFixed(1);
+    const wind = weather.wind.speed.toFixed(1);
+    const humid = weather.main.humidity;
+    $('#solo-temp').text(`Temperature: ${temp} ºF`)
+    $('#solo-humid').text(`Humidity: ${humid}%`)
+    $('#solo-wind').text(`Wind Speed: ${wind} MPH`)
+    $('#solo-uv').text(`UV Index: `)
+}
