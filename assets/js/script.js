@@ -51,7 +51,11 @@ const getWeather = async (city) => {
                 }
             });
 
-        displayWeather(currentWeather, uvIndex, fiveDayForecast);
+        const sortedFiveDay = getFiveDayInfo(fiveDayForecast);
+
+        displayWeather(currentWeather, uvIndex, sortedFiveDay);
+        saveSearch(city, currentWeather, uvIndex, sortedFiveDay);
+
     } catch (e) {
         switch (e.message) {
             case '404 Not Found':
@@ -61,7 +65,6 @@ const getWeather = async (city) => {
                 alert(e + '\nUnable to connect to OpenWeather.');
                 break;
             default:
-                alert(e);
                 console.log(e);
         }
     }
@@ -103,14 +106,12 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
 
     $('#5-day-header').text('5-Day Forecast:');
 
-    const sortedFiveDay = getFiveDayInfo(fiveDay);
-
-    for (let i = 0; i < sortedFiveDay.length; i++) {
-        iconCode = sortedFiveDay[i].icon;
+    for (let i = 0; i < fiveDay.length; i++) {
+        iconCode = fiveDay[i].icon;
         iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`
-        temp = sortedFiveDay[i].temp.toFixed(1);
-        humid = sortedFiveDay[i].humid;
-        date = moment(sortedFiveDay[i].date).format('D/M/YYYY');
+        temp = fiveDay[i].temp.toFixed(1);
+        humid = fiveDay[i].humid;
+        date = moment(fiveDay[i].date).format('D/M/YYYY');
         $('<div>')
             .addClass('card bg-primary text-white px-2 py-2')
             .attr('id', i)
@@ -138,7 +139,7 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
     }
 };
 
-const getFiveDayInfo = function (fiveDay) {
+const getFiveDayInfo = fiveDay => {
     let dateTracker;
     let x = -1
     let fiveDayInfo = []
@@ -184,3 +185,41 @@ const getFiveDayInfo = function (fiveDay) {
     }
     return fiveDayInfo;
 }
+
+const saveSearch = (city) => {
+    let copy;
+    let savedHistory = localStorage.getItem('weather-search');
+    savedHistory = JSON.parse(savedHistory) || [];
+
+    if (city & !savedHistory) {
+        savedHistory.unshift(city);
+    } else if (city) {
+        for (let i = 0; i < savedHistory.length; i++) {
+            if (savedHistory[i] === city) {
+                copy = true;
+            }
+        }
+        if (!copy) {
+            savedHistory.unshift(city);
+        }
+    }
+
+    localStorage.setItem('weather-search', JSON.stringify(savedHistory));
+    displaySearchHistory(savedHistory);
+}
+
+const displaySearchHistory = (savedHistory) => {
+
+    $('#search-history')
+        .text('')
+    for (let i = 0; i < savedHistory.length; i++) {
+        $('<button>')
+            .text(savedHistory[i])
+            .addClass('list-group-item text-left')
+            .appendTo($('#search-history'))
+            .on('click', function () {
+                getWeather(savedHistory[i]);
+            })
+    }
+}
+saveSearch();

@@ -1,3 +1,8 @@
 .bg-2 {
     background-color: rgb(248, 249, 250);
 }
+
+.scroll {
+    max-height: 470px;
+    overflow-y: auto;
+}
