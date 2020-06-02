@@ -103,13 +103,14 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
 
     $('#5-day-header').text('5-Day Forecast:');
 
-    const fiveDayInfo = getFiveDayInfo(fiveDay);
-    for (let i = 0; i < fiveDayInfo.length; i++) {
-        iconCode = fiveDayInfo[i].icon;
+    const sortedFiveDay = getFiveDayInfo(fiveDay);
+
+    for (let i = 0; i < sortedFiveDay.length; i++) {
+        iconCode = sortedFiveDay[i].icon;
         iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`
-        temp = fiveDayInfo[i].temp.toFixed(1);
-        humid = fiveDayInfo[i].humid;
-        date = moment(fiveDayInfo[i].date).format('D/M/YYYY');
+        temp = sortedFiveDay[i].temp.toFixed(1);
+        humid = sortedFiveDay[i].humid;
+        date = moment(sortedFiveDay[i].date).format('D/M/YYYY');
         $('<div>')
             .addClass('card bg-primary text-white px-2 py-2')
             .attr('id', i)
@@ -134,7 +135,6 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
             .text(`Humidity: ${humid}%`)
             .addClass('mb-0')
             .appendTo($(`#${i}`))
-
     }
 };
 
