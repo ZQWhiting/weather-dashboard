@@ -18,10 +18,8 @@ $('#city-submit').on('click', (event) => {
     const cityInput = $('#city-input').val().trim();
 
     if (cityInput) {
-        // save input to search history
         // get weather info from OpenWeather
         // clear form city-input value
-        saveSearch(cityInput);
         getWeather(cityInput);
         $('#city-input').val('');
     } else {
@@ -72,7 +70,9 @@ const getWeather = async (city) => {
         }
     }
     // display wanted data
+    // save search value
     displayWeather(currentWeather, uvIndex, sortedFiveDay);
+    saveSearch(city);
 };
 
 const getFiveDayInfo = fiveDay => {
@@ -126,7 +126,7 @@ const getFiveDayInfo = fiveDay => {
                 humid: humid,
                 icon: icon
             }
-            fiveDayInfo.push(dayObj);
+            fiveDayInfo.push(day);
 
             // and track next object fiveDayInfo[x]
             x++;
