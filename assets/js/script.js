@@ -66,7 +66,8 @@ const getWeather = async (city) => {
                 alert(e + '\nUnable to connect to OpenWeather');
                 break;
             default:
-                console.log(e);
+                alert(e + '\nCheck console for details')
+                console.log(e, e.status, e.statusText);
         }
     }
     // display wanted data
@@ -284,7 +285,7 @@ const displaySearchHistory = (savedHistory) => {
     for (let i = 0; i < savedHistory.length; i++) {
         $('<button>')
             .text(savedHistory[i])
-            .addClass('list-group-item text-left')
+            .addClass('list-group-item text-left capitalize')
             .appendTo($('#search-history'))
             .on('click', function () {
                 getWeather(savedHistory[i]);
