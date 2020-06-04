@@ -45,8 +45,8 @@ const getWeather = async (city) => {
         const cityLat = currentWeather.coord.lat;
         const cityLon = currentWeather.coord.lon;
         const cityId = currentWeather.id;
-        const uvUrl = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${cityLat}&lon=${cityLon}`;
-        const fiveDayUrl = `http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&units=imperial&appid=${apiKey}`;
+        const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${cityLat}&lon=${cityLon}`;
+        const fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&units=imperial&appid=${apiKey}`;
 
         // api call to uv index
         uvIndex = await myFetch(uvUrl);
@@ -161,7 +161,7 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
     $('#solo-header').text(`${city} (${date})`);
 
     let iconCode = currentWeather.weather[0].icon;
-    let icon = `http://openweathermap.org/img/w/${iconCode}.png`;
+    let icon = `https://openweathermap.org/img/w/${iconCode}.png`;
     $('<img>')
         .attr('src', icon)
         .appendTo($('#solo-header'));
@@ -206,7 +206,7 @@ const displayWeather = (currentWeather, uvIndex, fiveDay) => {
 
         // Data Values to Display
         iconCode = fiveDay[i].icon;
-        icon = `http://openweathermap.org/img/w/${iconCode}.png`
+        icon = `https://openweathermap.org/img/w/${iconCode}.png`
         temp = fiveDay[i].temp.toFixed(1);
         humid = fiveDay[i].humid;
         date = moment(fiveDay[i].date).format('D/M/YYYY');
