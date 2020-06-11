@@ -281,19 +281,19 @@ const displaySearchHistory = (savedHistory) => {
         .text('')
 
     // iterate through the saved history array
-    // and display a DOM element with an attached event listener
+    // and display a DOM element with attached event listeners
     for (let i = 0; i < savedHistory.length; i++) {
         $('<button>')
             .text(savedHistory[i])
             .addClass('list-group-item text-left capitalize')
             .appendTo($('#search-history'))
-            .hover(function() {
+            .hover(function () {
                 $(this).addClass('btn-primary')
             },
-            function() {
-                $(this).removeClass('btn-primary')
-            })
-            .on('click', function () {
+                function () {
+                    $(this).removeClass('btn-primary')
+                })
+            .click(function () {
                 getWeather(savedHistory[i])
             });
     }
