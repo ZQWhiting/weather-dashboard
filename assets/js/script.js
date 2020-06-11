@@ -15,7 +15,7 @@ const myFetch = async (apiUrl) => {
 $('#city-submit').on('click', (event) => {
     event.preventDefault();
 
-    const cityInput = $('#city-input').val().trim();
+    const cityInput = $('#city-input').val().trim().toLowerCase();
 
     if (cityInput) {
         // get weather info from OpenWeather
@@ -97,7 +97,7 @@ const getFiveDayInfo = fiveDay => {
 
         // obtain date value
         let date = listItem.dt_txt
-        date = date.split(" ")
+        date = date.split(" ");
         date = date[0];
 
         // IF date is a repeat, obtain highest data values
