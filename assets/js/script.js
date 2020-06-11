@@ -287,9 +287,15 @@ const displaySearchHistory = (savedHistory) => {
             .text(savedHistory[i])
             .addClass('list-group-item text-left capitalize')
             .appendTo($('#search-history'))
-            .on('click', function () {
-                getWeather(savedHistory[i]);
+            .hover(function() {
+                $(this).addClass('btn-primary')
+            },
+            function() {
+                $(this).removeClass('btn-primary')
             })
+            .on('click', function () {
+                getWeather(savedHistory[i])
+            });
     }
 }
 
